@@ -1,0 +1,269 @@
+/* GlobKurier Bulk Send Modal Styles */
+#globkurier-bulk-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999999;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.modal-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modal-content {
+	background: #fff;
+	border-radius: 8px;
+	max-width: 90%;
+	width: 90%;
+	max-height: 90vh;
+	/*overflow-y: auto;*/
+	cursor: default;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	position: relative;
+	margin: 5vh auto;
+	overflow-x: hidden;
+}
+
+.modal-header {
+	position: sticky;
+	top: 0;
+	padding: 24px 24px 16px;
+	border-bottom: 1px solid #e5e7eb;
+	margin-bottom: 20px;
+	background: #fff;
+	z-index: 10;
+	border-radius: 8px 8px 0 0;
+}
+
+.modal-title {
+    margin: 0 0 16px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+    padding-right: 40px;
+}
+
+.modal-body {
+    padding: 0 24px 24px;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-radius: 0 0 8px 8px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #9ca3af;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    color: #4b5563;
+    background: #f3f4f6;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-primary {
+    background: #0073aa;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #005a87;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 12px;
+}
+
+.order-list {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.order-list h4 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.order-ids {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.5;
+    word-break: break-all;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.globkurier-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.globkurier-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #16a34a;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.globkurier-form-group {
+    margin-bottom: 16px;
+}
+
+.globkurier-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.globkurier-input,
+.globkurier-select,
+.globkurier-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.globkurier-input:focus,
+.globkurier-select:focus,
+.globkurier-textarea:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.globkurier-orders-list {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.globkurier-order-item {
+    padding: 4px 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.globkurier-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #9ca3af;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.globkurier-close-btn:hover {
+    color: #4b5563;
+    background: #f3f4f6;
+}
+
+.bulk-order-header{
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+}

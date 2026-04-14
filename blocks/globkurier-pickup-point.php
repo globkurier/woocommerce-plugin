@@ -1,0 +1,214 @@
+<?php
+
+add_action('woocommerce_blocks_loaded', function (){
+	require_once __DIR__.'/globkurier-pickup-point-blocks-integration.php';
+
+	add_action(
+		'woocommerce_blocks_checkout_block_registration',
+		function ($integration_registry){
+			$integration_registry->register(new GlobkurierPickupPoint_Blocks_Integration());
+		}
+	);
+});
+
+function register_GlobkurierPickupPoint_block_category($categories)
+{
+	return array_merge(
+		$categories,
+		[
+			[
+				'slug'  => 'globkurier-pickup-point',
+				'title' => __('GlobkurierPickupPoint Blocks', 'globkurier-pickup-point'),
+			],
+		]
+	);
+}
+
+add_action('block_categories_all', 'register_GlobkurierPickupPoint_block_category', 10, 2);
+
+use Automattic\WooCommerce\StoreApi\StoreApi;
+use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
+use Automattic\WooCommerce\StoreApi\Schemas\V1\CheckoutSchema;
+use udigroup_globkurier\WoocommerceAddons;
+
+add_action('woocommerce_blocks_loaded', function (){
+	woocommerce_store_api_register_endpoint_data(
+		[
+			'endpoint'        => CheckoutSchema::IDENTIFIER,
+			'namespace'       => 'globkurier-pickup-point',
+			'data_callback'   => 'globkurier_cb_data_callback',
+			'schema_callback' => 'globkurier_cb_schema_callback',
+			'schema_type'     => ARRAY_A,
+		]
+	);
+});
+
+function globkurier_cb_data_callback()
+{
+	return [
+		'globkurier_inpost_input' => '',
+	];
+}
+
+function globkurier_cb_schema_callback()
+{
+	$return = [
+		
+		'globkurier_method_id' => [
+			'description' => __('globkurier_method_id', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		
+		'globkurier_inpost_input'              => [
+			'description' => __('globkurier_inpost_input', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_inpost_input_hidden_value' => [
+			'description' => __('globkurier_inpost_input_hidden_value', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		
+		'globkurier_inpost_input_point_lat'          => [
+			'description' => __('globkurier_inpost_input_point_lat', 'globkurier'),
+			'type'        => ['float', 'integer', 'string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_inpost_input_point_long'         => [
+			'description' => __('globkurier_inpost_input_point_long', 'globkurier'),
+			'type'        => ['float', 'integer', 'string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_inpost_input_point_city'         => [
+			'description' => __('globkurier_inpost_input_point_city', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_inpost_input_point_address'      => [
+			'description' => __('globkurier_inpost_input_point_address', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_inpost_input_point_openingHours' => [
+			'description' => __('globkurier_inpost_input_point_openingHours', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		
+		'globkurier_ruch_input'              => [
+			'description' => __('globkurier_ruch_input', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_ruch_input_hidden_value' => [
+			'description' => __('globkurier_ruch_input_hidden_value', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		
+		'globkurier_ruch_input_point_lat'          => [
+			'description' => __('globkurier_ruch_input_point_lat', 'globkurier'),
+			'type'        => ['float', 'integer', 'string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_ruch_input_point_long'         => [
+			'description' => __('globkurier_ruch_input_point_long', 'globkurier'),
+			'type'        => ['float', 'integer', 'string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_ruch_input_point_city'         => [
+			'description' => __('globkurier_ruch_input_point_city', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_ruch_input_point_address'      => [
+			'description' => __('globkurier_ruch_input_point_address', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+		'globkurier_ruch_input_point_openingHours' => [
+			'description' => __('globkurier_ruch_input_point_openingHours', 'globkurier'),
+			'type'        => ['string', 'null'],
+			'readonly'    => true,
+		],
+	
+	];
+	
+	global $globKurier;
+	
+	foreach ($globKurier->settings() as $key => $_method) {
+		if (strpos($key, 'extra_pickup_point_') === 0) {
+			$carrierId = \str_replace('extra_pickup_point_', '', $key);
+			
+			$return = array_merge($return, [
+				'globkurier_'.$key.'_input'              => [
+					'description' => __('globkurier_'.$key.'_input', 'globkurier'),
+					'type'        => ['string', 'null'],
+					'readonly'    => true,
+				],
+				'globkurier_'.$key.'_input_hidden_value' => [
+					'description' => __('globkurier_'.$key.'_input_hidden_value', 'globkurier'),
+					'type'        => ['string', 'null'],
+					'readonly'    => true,
+				],
+				
+				'globkurier_'.$key.'_input_point_lat'          => [
+					'description' => __('globkurier_'.$key.'_input_point_lat', 'globkurier'),
+					'type'        => ['float', 'integer', 'string', 'null'],
+					'readonly'    => true,
+				],
+				'globkurier_'.$key.'_input_point_long'         => [
+					'description' => __('globkurier_'.$key.'_input_point_long', 'globkurier'),
+					'type'        => ['float', 'integer', 'string', 'null'],
+					'readonly'    => true,
+				],
+				'globkurier_'.$key.'_input_point_city'         => [
+					'description' => __('globkurier_'.$key.'_input_point_city', 'globkurier'),
+					'type'        => ['string', 'null'],
+					'readonly'    => true,
+				],
+				'globkurier_'.$key.'_input_point_address'      => [
+					'description' => __('globkurier_'.$key.'_input_point_address', 'globkurier'),
+					'type'        => ['string', 'null'],
+					'readonly'    => true,
+				],
+				'globkurier_'.$key.'_input_point_openingHours' => [
+					'description' => __('globkurier_'.$key.'_input_point_openingHours', 'globkurier'),
+					'type'        => ['string', 'null'],
+					'readonly'    => true,
+				],
+			]);
+		}
+	}
+	
+	return $return;
+}
+
+add_action('woocommerce_store_api_checkout_update_order_from_request', function ($order, $request){
+	global $globKurier;
+	if (!$globKurier || !$globKurier->isAnyPickupPointActive()) {
+		return;
+	}
+
+	$data = isset($request[ 'extensions' ][ 'globkurier-pickup-point' ]) ? $request[ 'extensions' ][ 'globkurier-pickup-point' ] : [];
+
+	if (empty($data[ 'globkurier_method_id' ])) {
+		return;
+	}
+
+	(new WoocommerceAddons())->setOrderMeta($order->get_id(), $data[ 'globkurier_method_id' ], $data);
+}, 10, 2);
+
+function globkurier_enqueue_select2_jquery()
+{
+	global $globKurier;
+	if (!$globKurier || !$globKurier->isAnyPickupPointActive()) {
+		return;
+	}
+
+	wp_register_style('gk_select2css', plugins_url().'/woocommerce/assets/css/select2.css', false, '1.0', 'all');
+	wp_enqueue_style('gk_select2css');
+}
+add_action('wp_enqueue_scripts', 'globkurier_enqueue_select2_jquery');

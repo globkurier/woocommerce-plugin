@@ -1,0 +1,34 @@
+{
+  "apiVersion": 2,
+  "name": "globkurier-pickup-point/pickup-point",
+  "version": "2.0.0",
+  "title": "Globkurier pickup points",
+  "category": "woocommerce",
+  "description": "Globkurier pickup points.",
+  "supports": {
+    "html": false,
+    "align": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "parent": [
+    "woocommerce/checkout-shipping-methods-block"
+  ],
+  "attributes": {
+    "lock": {
+      "type": "object",
+      "default": {
+        "remove": true,
+        "move": true
+      }
+    },
+    "text": {
+      "type": "string",
+      "source": "html",
+      "selector": ".wp-block-globkurier-pickup-point",
+      "default": ""
+    }
+  },
+  "textdomain": "globkurier-pickup-point",
+  "editorStyle": "file:../../../build/style-globkurier-pickup-point-block.css"
+}

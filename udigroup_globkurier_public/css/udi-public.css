@@ -1,0 +1,120 @@
+
+#inpost_point_notices{
+	display: none;
+	padding: 5px 0;
+	margin: 1px 0;
+	font-weight: 600;
+}
+
+.udi-loader,
+.udi-loader:after{
+	border-radius: 50%;
+	width: 5em;
+	height: 5em;
+}
+
+.udi-loader{
+	font-size: 2px;
+	margin: 5px 0 0 5px;
+	position: relative;
+	text-indent: -9999em;
+	border-top: 1.1em solid #f9f9f9;
+	border-right: 1.1em solid #23282d38;
+	border-bottom: 1.1em solid #23282d38;
+	border-left: 1.1em solid #23282d38;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-animation: load8 1.1s infinite linear;
+	animation: load8 4s infinite linear;
+	
+	display: none;
+}
+
+@-webkit-keyframes load8{
+	0%{
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100%{
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes load8{
+	0%{
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100%{
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+.ui-autocomplete-loading{
+	background: url('/globkurier/wp-admin/images/spinner.gif') no-repeat right 5px center;
+}
+
+.ui-autocomplete{
+	background-color: white;
+	border: 1px solid #e2e4e7;
+	width: max-content;
+	max-height: 300px;
+	overflow: auto;
+}
+
+.ui-autocomplete .ui-menu-item{
+	list-style: none;
+	cursor: pointer;
+	padding: 0 5px;
+	margin: 1.5rem 1.8rem;
+}
+
+.ui-autocomplete .ui-menu-item.ui-state-focus{
+	outline: auto;
+}
+
+.globkurier-inpost-container, .globkurier-ruch-container{
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+#globkurier_inpost_input, #globkurier_ruch_input {
+	padding: 1.5rem 1.8rem !important;
+	flex: 1;
+	border: 1px solid #ddd;
+}
+
+#map-inpost{
+	height:500px;
+	width:100%;
+}
+
+#map-ruch{
+	height:500px;
+	width:100%;
+}
+
+.globkurier_marker_select_point{
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	/*text-decoration: none; */
+	background-color: #cd2653;
+}
+
+#globkurier_map{
+	width: 100%;
+	height: 500px;
+}
+
+.gkInfowindow-inside{
+	height: 170px;
+	min-width: 200px;
+	font-size: 15px;
+}

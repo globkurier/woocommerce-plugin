@@ -1,0 +1,2 @@
+<?php
+return ['domain'=>NULL,'plural-forms'=>'nplurals=2; plural=n != 1;','language'=>'en_US','project-id-version'=>'globkurier.pl – Integracja z WooCommerce','pot-creation-date'=>'2019-12-05 09:13+0000','po-revision-date'=>'2019-12-05 10:22+0100','x-generator'=>'Poedit 2.2.4','messages'=>['Angielski'=>'English','GlobKurier'=>'GlobKurier EN']];

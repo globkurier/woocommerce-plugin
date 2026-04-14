@@ -1,0 +1,3 @@
+Wtyczka objęta jest licencją GNU GPL 3. Pełną treść licencji znajdziesz na stronie gnu.org/licenses/gpl-3.0.html.
+
+Autor: udigroup.pl - UDI Group Sp. Z O.O.

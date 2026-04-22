@@ -1092,7 +1092,9 @@
 			$( '#globkurier_ruch_input' ).removeClass( 'globkurier-is-required' );
 			
 			if ( _isRuch == 1 ) {
-				$( '.globkurier-not-pickup' ).hide();
+				if($('#globkurier-pickup-type-PICKUP').is(':disabled')){
+					$( '.globkurier-not-pickup' ).hide();
+				}
 				$( '.globkurier-only-inpost' ).hide();
 				
 				$( '#globkurier_inpost_input' ).removeClass( 'globkurier-is-required' );
@@ -1103,14 +1105,19 @@
 			}
 			
 			if ( _isInpost == 1 ) {
-				$( '.globkurier-not-pickup' ).hide();
+				if($('#globkurier-pickup-type-PICKUP').is(':disabled')){
+					$( '.globkurier-not-pickup' ).hide();
+				}
+				
 				$( '.globkurier-only-ruch' ).hide();
 				
 				$( '#globkurier_inpost_input' ).addClass( 'globkurier-is-required' );
 				$( '#globkurier_inpost_input-pickup' ).addClass( 'globkurier-is-required' );
 				$( '#globkurier_ruch_input' ).removeClass( 'globkurier-is-required' );
 				
-				$( '.globkurier-only-inpost' ).css( 'display', 'contents' );
+				if(!$('#globkurier-pickup-type-PICKUP').is(':checked')){
+					$( '.globkurier-only-inpost' ).css( 'display', 'contents' );
+				}
 			}
 			
 			if ( _isCrossborder == 1 ) {
@@ -1321,12 +1328,26 @@
 			
 			let pickupType = $( this ).data( 'pickuptype' );
 			
+			let _isInpost = $( '#udi-selected-product-is-inpost' ).val( );
+			
+			console.log(_isInpost, $( '#udi-selected-product-is-inpost' ).val( ));
+			
 			if ( pickupType == 'POINT' ) {
 				$( '.globkurier-not-pickup' ).hide();
+				
+				if ( _isInpost == 1 ) {
+					$( '.globkurier-only-inpost' ).css( 'display', 'contents' );
+				}
 			}
 			
 			if ( pickupType == 'PICKUP' ) {
 				$( '.globkurier-not-pickup' ).show();
+				
+				
+				if ( _isInpost == 1 ) {
+					$( '.globkurier-only-inpost' ).hide();
+				}
+				
 			}
 			
 		} );

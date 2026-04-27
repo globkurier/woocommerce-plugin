@@ -4,7 +4,7 @@ Donate link: https://wp-opieka.pl/
 Requires at least: 6.0
 Tested up to: 6.9.1
 Requires PHP: 7.4
-Stable tag: 2.5.2
+Stable tag: 2.5.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -75,7 +75,7 @@ Zakładka WooCommerce → Ustawienia → Wysyłka
 
 == Changelog ==
 
-2.5.2 - 22.04.2026
+2.5.4 - 24.04.2026
 	Fixed: Inpost pickup fixes
 
 2.5.1 - 01.04.2026

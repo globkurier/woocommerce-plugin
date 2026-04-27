@@ -1009,7 +1009,7 @@ if ($statusIsOk) {
 							</div>
 						</div>
 
-						<div class="globkurier-only-inpost">
+						<div class="globkurier-only-inpost inpost-always">
 							<label for="globkurier_inpost_input" class="udi-options-body-label"><?php
 								echo esc_attr(__('InPost punkt odbioru', 'globkurier')) ?>:</label>
 

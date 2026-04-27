@@ -16,7 +16,7 @@ class UDIGroup_Admin
 	
 	public function enqueue_styles()
 	{
-		wp_enqueue_style('woocommerce_admin_styles', WC()->plugin_url().'/assets/css/admin.css', [], WC_VERSION);
+		wp_enqueue_style('woocommerce_admin_styles', WC()->plugin_url().'/assets/css/admin.css', [], $this->version);
 		
 		wp_enqueue_style($this->plugin_name.'_datatables', UDIGroup_Helper::getAdminUrl('css/datatables/datatables.min.css'), [], $this->version, 'all');
 		wp_enqueue_style($this->plugin_name, UDIGroup_Helper::getAdminUrl('css/udi-admin.css'), [], $this->version, 'all');
@@ -84,7 +84,7 @@ class UDIGroup_Admin
 		}
 		
 		if ($is_order_page) {
-			wp_register_script($this->plugin_name.'_udi_admin_script', UDIGroup_Helper::getAdminUrl('js/udi-admin.js'), $this->version, true);
+			wp_register_script($this->plugin_name.'_udi_admin_script', UDIGroup_Helper::getAdminUrl('js/udi-admin.js'), [], $this->version, true);
 			
 			wp_localize_script($this->plugin_name.'_udi_admin_script', 'udi_admin_script', [
 				'datatables_lang_pl' => UDIGroup_GLOBKURIER_PLUGIN_DIR_URL.'udigroup_globkurier_admin/lang/datatables/pl.json',

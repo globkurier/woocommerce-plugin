@@ -756,7 +756,7 @@
 			let errors = 0;
 			$.each( validator, function ( id, field ) {
 				if ( field.val() == '' || field.val() == null ) {
-					globkurier_add_error( 'Pole jest wymagene', field );
+					globkurier_add_error( 'Pole jest wymagane', field );
 					errors++;
 				}
 			} );
@@ -1111,6 +1111,8 @@
 				
 				$( '.globkurier-only-ruch' ).hide();
 				
+				$( '.inpost-always' ).css( 'display', 'contents' );
+				
 				$( '#globkurier_inpost_input' ).addClass( 'globkurier-is-required' );
 				$( '#globkurier_inpost_input-pickup' ).addClass( 'globkurier-is-required' );
 				$( '#globkurier_ruch_input' ).removeClass( 'globkurier-is-required' );
@@ -1330,8 +1332,6 @@
 			
 			let _isInpost = $( '#udi-selected-product-is-inpost' ).val( );
 			
-			console.log(_isInpost, $( '#udi-selected-product-is-inpost' ).val( ));
-			
 			if ( pickupType == 'POINT' ) {
 				$( '.globkurier-not-pickup' ).hide();
 				
@@ -1346,6 +1346,7 @@
 				
 				if ( _isInpost == 1 ) {
 					$( '.globkurier-only-inpost' ).hide();
+					$( '.inpost-always' ).css( 'display', 'contents' );
 				}
 				
 			}
@@ -1456,15 +1457,15 @@
 										let options = [];
 										if ( parsedData ) {
 											$.each( parsedData, function ( index, data ) {
-												console.log( {
-													id: data.id,
-													text: data.name,
-													latitude: data.latitude,
-													longitude: data.longitude,
-													city: data.city,
-													address: data.address,
-													openingHours: data.openingHours,
-												} );
+												// console.log( {
+												// 	id: data.id,
+												// 	text: data.name,
+												// 	latitude: data.latitude,
+												// 	longitude: data.longitude,
+												// 	city: data.city,
+												// 	address: data.address,
+												// 	openingHours: data.openingHours,
+												// } );
 												options.push( {
 													id: data.id,
 													text: data.name + ', ' + data.address + ' [' + data.id + ']',
@@ -2284,7 +2285,11 @@
 			
 			let valueErrors = 0;
 			
-			$( '.globkurier-is-required' ).each( function () {
+			$( '.globkurier-is-required' ).filter( function () {
+				return $( this )
+					.closest( '.globkurier-only-inpost, .globkurier-only-ruch, .globkurier-only-crossborder, .globkurier-not-pickup' )
+					.css( 'display' ) !== 'none';
+			} ).each( function () {
 				
 				let value = $( this ).val();
 				
@@ -2307,7 +2312,12 @@
 			
 			let errors = 0;
 			
-			$( '.udi-service-options-body .globkurier-is-required' ).each( function () {
+			
+			$( '.udi-service-options-body .globkurier-is-required' ).filter( function () {
+				return $( this )
+					.closest( '.globkurier-only-inpost, .globkurier-only-ruch, .globkurier-only-crossborder, .globkurier-not-pickup' )
+					.css( 'display' ) !== 'none';
+			} ).each( function () {
 				if ( $( this ).val() == '' ) {
 					globkurier_add_error( '', $( this ) );
 					errors++;

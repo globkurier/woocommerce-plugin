@@ -14,6 +14,7 @@ require_once UDIGroup_Helper::getAdminPath( 'globkurier/GlobKurierCustomRequired
 require_once UDIGroup_Helper::getAdminPath( 'globkurier/GlobKurierDocuments.php' );
 require_once UDIGroup_Helper::getAdminPath( 'globkurier/GlobKurierExtraPickupPoints.php' );
 require_once UDIGroup_Helper::getAdminPath( 'globkurier/GlobKurierCrossborderTerminals.php' );
+require_once UDIGroup_Helper::getAdminPath( 'globkurier/GlobKurierCustoms.php' );
 
 require_once UDIGroup_Helper::getAdminPath( 'woocommerce/ShippingMethods.php' );
 
@@ -160,7 +161,12 @@ class GlobKurier{
 	{
 		return new GlobKurierCrossborderTerminals();
 	}
-	
+
+	public function customs(): GlobKurierCustoms
+	{
+		return new GlobKurierCustoms();
+	}
+
     public function wcShippingMethods(){
         return new ShippingMethods();
     }

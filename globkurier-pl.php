@@ -3,7 +3,7 @@
  * @wordpress-plugin
  * Plugin Name:       globkurier.pl – Integracja z WooCommerce
  * Description:       Integracja WooCommerce z globkurier.pl
- * Version:           2.5.4
+ * Version:           2.5.4.1
  * Author:            WP OPIEKA
  * Author URI:        https://wp-opieka.pl/
  * License: GPLv3
@@ -44,7 +44,11 @@ class UDIGroup_GLOBKURIER_INIT{
 		
 		define( 'UDIGroup_HELPER_GLOBKURIER_DIR', plugin_dir_path( __FILE__ ) . UDIGroup_GLOBKURIER_DIRECTORY_PREFIX . 'includes/class-udi-helper.php' );
 		
-		define( 'UDIGroup_GLOBKURIER_VERSION', '2.5.4' );
+		define( 'UDIGroup_GLOBKURIER_VERSION', '2.5.4.1' );
+
+		if ( ! defined( 'UDIGroup_GLOBKURIER_CUSTOMS_ENABLED' ) ) {
+			define( 'UDIGroup_GLOBKURIER_CUSTOMS_ENABLED', false );
+		}
 		
 		global $wpdb;
 		define( 'UDIGroup_GLOBKURIER_DB_PREFIX', $wpdb->prefix . 'globkurier_' );
@@ -69,6 +73,10 @@ class UDIGroup_GLOBKURIER_INIT{
 		
 		if (is_admin()) {
 			require_once plugin_dir_path(__FILE__) . 'bulk_send/BulkSend.php';
+
+			if ( UDIGroup_GLOBKURIER_CUSTOMS_ENABLED ) {
+				require_once plugin_dir_path(__FILE__) . 'udigroup_globkurier_admin/customs/Customs.php';
+			}
 		}
 		
 	}

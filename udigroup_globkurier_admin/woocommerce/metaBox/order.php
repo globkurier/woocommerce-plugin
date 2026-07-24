@@ -854,6 +854,7 @@ if ($statusIsOk) {
 		<div class="udi-step-select-product-details-left">
 			<div class="udi-selected-product">
 				<input type="hidden" id="udi-selected-product-is-inpost">
+				<input type="hidden" id="udi-selected-product-inpost-delivery-to-point">
 				<input type="hidden" id="udi-selected-product-is-ruch">
 				<input type="hidden" id="udi-selected-product-is-crossborder">
 				

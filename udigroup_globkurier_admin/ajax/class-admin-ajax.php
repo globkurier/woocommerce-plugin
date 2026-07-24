@@ -59,6 +59,8 @@ class UDIGroup_Admin_Ajax
 
 		$products = $globKurier->product()->get($data);
 		
+	 
+		
 		die(json_encode($products));
 	}
 	
@@ -284,7 +286,11 @@ class UDIGroup_Admin_Ajax
 			]);
 			
 			if ( $data['isInpost'] == 1 ) {
-				$fullData['inpostReceiverPointId'] = $wcOrder->get_meta('globkurier_inpost_value') ?? '';
+				$inpostDeliveryToPoint = !isset($data['inpostDeliveryToPoint']) || $data['inpostDeliveryToPoint'] == 1;
+
+				if ( $inpostDeliveryToPoint ) {
+					$fullData['inpostReceiverPointId'] = $wcOrder->get_meta('globkurier_inpost_value') ?? '';
+				}
 			} else if ( $data['isRuch'] == 1 ) {
 				$fullData['ruchReceiverPointId'] = $wcOrder->get_meta('globkurier_ruch_value') ?? '';
 			}

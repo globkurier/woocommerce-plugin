@@ -238,7 +238,13 @@ class GlobKurierOrder extends GlobKurier{
 		}
 		
 		if( $isInpost == 1 ){
-			$receiverAddress[ 'pointId' ] = $params[ 'inpostReceiverPointId' ] ?? '';
+			// Dla InPost paczkomat ustawiamy punkt odbioru tylko gdy usluga dostarcza do punktu.
+			// Uslugi "dostawa do drzwi" (deliveryTypeOptions bez POINT) nie wymagaja paczkomatu odbiorcy.
+			$inpostDeliveryToPoint = !isset( $params[ 'inpostDeliveryToPoint' ] ) || $params[ 'inpostDeliveryToPoint' ] == 1;
+
+			if( $inpostDeliveryToPoint ){
+				$receiverAddress[ 'pointId' ] = $params[ 'inpostReceiverPointId' ] ?? '';
+			}
 		} else if( $params[ 'collectionType' ] == 'POINT' && $isRuch == 1 ){
 			$receiverAddress[ 'pointId' ] = $params[ 'ruchReceiverPointId' ] ?? '';
 		}
@@ -411,7 +417,13 @@ class GlobKurierOrder extends GlobKurier{
 		if( empty( $parsed[ 'purpose' ] ) ){
 			unset( $parsed[ 'purpose' ] );
 		}
-	
+
+		// Odprawa celna: dołącz sekcję customs (zsanityzowaną per typ - wspólny sanitizer to atrapa).
+		if( defined( 'UDIGroup_GLOBKURIER_CUSTOMS_ENABLED' ) && UDIGroup_GLOBKURIER_CUSTOMS_ENABLED
+			&& ! empty( $params[ 'customs' ] ) && is_array( $params[ 'customs' ] ) ){
+			$parsed[ 'customs' ] = $this->customs()->sanitizeCustoms( $params[ 'customs' ] );
+		}
+
 		return $parsed;
 	}
 	

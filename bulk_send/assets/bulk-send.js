@@ -325,12 +325,17 @@
 			let _isRuch = isRuch( _this );
 			let _isInpost = isInpost( _this );
 			let _isCrossborder = isCrossborder( _this );
-			
+
+			// Czy usluga dostarcza do punktu odbioru (POINT) czy do drzwi (brak POINT w deliveryTypeOptions)
+			let deliveryTypes = ( _this.data( 'deliverytypes' ) || '' ).toString().split( ',' );
+			let inpostDeliveryToPoint = deliveryTypes.indexOf( 'POINT' ) !== -1 ? 1 : 0;
+
 			if ( $( document ).find( '#udi-select-crossborder_terminal_value' ).data( 'select2' ) ) {
 				$( document ).find( '#udi-select-crossborder_terminal_value' ).select2( 'destroy' );
 			}
-			
+
 			$( '#udi-selected-product-is-inpost' ).val( _isInpost );
+			$( '#udi-selected-product-inpost-delivery-to-point' ).val( inpostDeliveryToPoint );
 			$( '#udi-selected-product-is-ruch' ).val( _isRuch );
 			$( '#udi-selected-product-is-crossborder' ).val( _isCrossborder );
 			
@@ -680,7 +685,8 @@
 										return {
 											city: search.term,
 											action: 'globkurierGetExtraPickupsPointsSelect2',
-											productId: orderData.productId
+											productId: orderData.productId,
+											countryId: orderData.receiverCountryId
 										}
 									},
 									processResults: function ( data ) {
@@ -754,22 +760,23 @@
 			
 			let isRuch = $( '#udi-selected-product-is-ruch' ).val();
 			let isInpost = $( '#udi-selected-product-is-inpost' ).val();
-			
+			let inpostDeliveryToPoint = $( '#udi-selected-product-inpost-delivery-to-point' ).val();
+
 			let extraPickupCarrierId = $( '#globkurier_extraPickupCarrierId' ).val();
 			let extraPickupCarrierValue = $( '#globkurier_extraPickupCarrierValue' ).val();
 			let extraPickupCarrierText = $( '#globkurier_extraPickupCarrierText' ).val();
-			
+
 			let wcOrderID = $( '#udi-wc-order-id' ).val();
 			let productId = $( '#udi-selected-product-id' ).val();
 			let description = $( '#globkurier-content' ).val();
-			
+
 			if ( description == 'Inne' ) {
 				description = $( '#globkurier-otherContent' ).val();
 			}
-			
+
 			let skuContent = $( '#sku_content' ).val();
-			
-			
+
+
 			let heights = {};
 			$("input[name^='globkurier-height[']").each(function() {
 				let name = $(this).attr('name');
@@ -893,7 +900,8 @@
 					'productId': productId,
 					'isRuch': isRuch,
 					'isInpost': isInpost,
-					
+					'inpostDeliveryToPoint': inpostDeliveryToPoint,
+
 					'extraPickupCarrierId': extraPickupCarrierId,
 					'extraPickupCarrierValue': extraPickupCarrierValue,
 					'extraPickupCarrierText': extraPickupCarrierText,

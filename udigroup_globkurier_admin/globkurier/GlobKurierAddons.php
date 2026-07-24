@@ -32,12 +32,20 @@ class GlobKurierAddons extends GlobKurier{
 		$token = $this->api()->getToken();
 		
 		$response = $this->api()->getResponse( $function, $token, $params, $method );
-	
+
+		$response[ 'data' ][ 'addons' ] = array_values( array_filter(
+			$response[ 'data' ][ 'addons' ],
+			static function( $addon ){
+				return empty( $addon[ 'disabled' ] );
+			}
+		) );
+
 		foreach( $response[ 'data' ][ 'addons' ] as &$addon ){
 			if( ! empty( $addon[ 'description' ] ) ){
 				$addon[ 'tooltip' ] = wc_help_tip( $addon[ 'description' ], TRUE );
 			}
 		}
+		unset( $addon );
 		
 		$addons = apply_filters( 'globkurier_product_addons', $response[ 'data' ] );
 		

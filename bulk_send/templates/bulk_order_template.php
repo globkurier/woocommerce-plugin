@@ -427,6 +427,7 @@ foreach ($orders as $i => $order) {
 					        data-labels="<?= esc_attr(implode(',', $labels)) ?>"
 					        data-carriername="<?= esc_attr($product[ 'carrierName' ] ?? '') ?>"
 					        data-collectiontypes="<?= esc_attr(implode(',', $product[ 'collectionTypes' ] ?? [])) ?>"
+					        data-deliverytypes="<?= esc_attr(implode(',', array_column($product[ 'deliveryTypeOptions' ] ?? [], 'key'))) ?>"
 					        data-carrierid="<?= esc_attr($productId) ?>">
 						<?= __('Wybieram', 'globkurier') ?>
 					</button>
@@ -444,6 +445,7 @@ foreach ($orders as $i => $order) {
 		<div class='udi-step-select-product-details-left'>
 			<div class='udi-selected-product'>
 				<input type='hidden' id='udi-selected-product-is-inpost'>
+				<input type='hidden' id='udi-selected-product-inpost-delivery-to-point'>
 				<input type='hidden' id='udi-selected-product-is-ruch'>
 				<input type='hidden' id='udi-selected-product-id'>
 				<div class='udi-selected-product-header'>

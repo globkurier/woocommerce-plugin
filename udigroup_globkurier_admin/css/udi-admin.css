@@ -108,14 +108,12 @@
 	flex-wrap: wrap
 }
 
-/*FOOTER*/
 
 .udi-page-footer{
 	padding: 10px;
 	text-align: right;
 }
 
-/*FOOTER END*/
 
 .udi-wpadmin-order-address, .udi-order-confirm-address, .udi-order-confirm-product, .udi-order-confirm-payment{
 	display: flex;
@@ -129,9 +127,7 @@
 	margin-top: 10px
 }
 
-.udi-wpadmin-order-address-col{
-	/*padding: 0 20px;*/
-}
+
 
 #globkurier-receiver-country{
 	max-width: 150px;
@@ -208,7 +204,6 @@
 
 .udi-error{
 	border: 2px solid #ff0000 !important;
-	/*padding: 0 7px !important;*/
 }
 
 .udi-best-price-products{
@@ -294,9 +289,6 @@
 }
 
 .udi-all-products{
-	/*display: flex;*/
-	/*flex-wrap: wrap;*/
-	/*justify-content: space-between;*/
 	margin-top: 10px;
 	
 	display: grid;
@@ -316,9 +308,7 @@
 	cursor: pointer;
 }
 
-.udi-all-products .udi-product:hover{
-	/*background-color: #d2d0d3 !important;*/
-}
+
 
 .udi-step-select-product-details{
 	display: flex;
@@ -552,21 +542,6 @@
 	}
 }
 
-/*@media only screen and (max-width: 800px){*/
-/*	.udi-login-form-row-with-help{*/
-/*		flex-basis: 100% !important;*/
-/*	}*/
-/*	*/
-/*	.udi-all-products .udi-product{*/
-/*		flex-basis: 95% !important;*/
-/*	}*/
-/*	*/
-/*	.udi-step-select-product-details-left, .udi-step-select-product-details-right{*/
-/*		flex-basis: 100% !important;*/
-/*		margin: 0 !important;*/
-/*	}*/
-/*	*/
-/*}*/
 
 .ui-autocomplete-loading{
 	background: url('/globkurier/wp-admin/images/spinner.gif') no-repeat right 5px center;

@@ -52,7 +52,7 @@ class GlobKurierProduct extends GlobKurier{
 		if( ! is_array( $rawProducts ) ){
 			return [];
 		}
-	
+
 		if(isset($rawProducts['fields'])){
 			$msg = '';
 			foreach ($rawProducts['fields'] ?? [] as $field=>$error) {

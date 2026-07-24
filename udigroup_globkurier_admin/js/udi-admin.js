@@ -899,6 +899,8 @@
 				
 				if(response.success === false){
 					alert(response.data.message || '');
+					button.prop( 'disabled', '' );
+					loader.hide();
 					return;
 				}
 				
@@ -940,7 +942,7 @@
 				
 				for ( let i = 0; i < 3; i++ ) {
 					if ( products[ i ] ) {
-						let product = '<div class="udi-best-price-product">\n\t<input type="radio" data-collectiontypes="' + products[ i ].collectionTypes + '" name="globkurier-selected-product" id="globkurier-product-' + products[ i ].id + '" value="' + products[ i ].id + '">\n\t<label for="globkurier-product-' + products[ i ].id + '">\n\t\t<span class="udi-product-name">' + products[ i ].carrierName + '</span> - <span class="udi-product-price">' + products[ i ].netPrice.toFixed( 2 ) + 'zł</span>\n\t</label>\n</div>';
+						let product = '<div class="udi-best-price-product">\n\t<input type="radio" data-collectiontypes="' + products[ i ].collectionTypes + '" data-deliverytypes="' + ( products[ i ].deliveryTypeOptions || [] ).map( function ( o ) { return o.key; } ).join( ',' ) + '" name="globkurier-selected-product" id="globkurier-product-' + products[ i ].id + '" value="' + products[ i ].id + '">\n\t<label for="globkurier-product-' + products[ i ].id + '">\n\t\t<span class="udi-product-name">' + products[ i ].carrierName + '</span> - <span class="udi-product-price">' + products[ i ].netPrice.toFixed( 2 ) + 'zł</span>\n\t</label>\n</div>';
 						container.append( product );
 					}
 				}
@@ -978,7 +980,7 @@
 						'\t\t<div><span>' + value.name + ' ' + nameSuffix + '</span></div>\n' +
 						collectionTypesText +
 						'\t\t<div style="margin: 20px 0"><span class="udi-product-price">' + value.netPrice.toFixed( 2 ) + 'zł </span></span><br/>(' + value.grossPrice.toFixed( 2 ) + 'zł brutto' + ')</div>\n' +
-						'\t\t<div style="margin: 10px 0"><button type="button" class="button-secondary udi-select-carrier"  data-labels="' + labels + '" data-carrierName="' + value.carrierName + '"  data-collectiontypes="' + value.collectionTypes + '"  data-carrierid="' + value.id + '">Wybieram</button></div>\n' +
+						'\t\t<div style="margin: 10px 0"><button type="button" class="button-secondary udi-select-carrier"  data-labels="' + labels + '" data-carrierName="' + value.carrierName + '"  data-collectiontypes="' + value.collectionTypes + '"  data-deliverytypes="' + ( value.deliveryTypeOptions || [] ).map( function ( o ) { return o.key; } ).join( ',' ) + '"  data-carrierid="' + value.id + '">Wybieram</button></div>\n' +
 						'\t</div>';
 					
 					allProductsContainer.append( product );
@@ -1064,12 +1066,17 @@
 			let _isRuch = isRuch( _this );
 			let _isInpost = isInpost( _this );
 			let _isCrossborder = isCrossborder( _this );
-			
+
+			// Czy usluga dostarcza do punktu odbioru (POINT) czy do drzwi (brak POINT w deliveryTypeOptions)
+			let deliveryTypes = ( _this.data( 'deliverytypes' ) || '' ).toString().split( ',' );
+			let inpostDeliveryToPoint = deliveryTypes.indexOf( 'POINT' ) !== -1 ? 1 : 0;
+
 			if ($( document ).find( '#udi-select-crossborder_terminal_value').data('select2')) {
 				$( document ).find( '#udi-select-crossborder_terminal_value').select2('destroy');
 			}
-			
+
 			$( '#udi-selected-product-is-inpost' ).val( _isInpost );
+			$( '#udi-selected-product-inpost-delivery-to-point' ).val( inpostDeliveryToPoint );
 			$( '#udi-selected-product-is-ruch' ).val( _isRuch );
 			$( '#udi-selected-product-is-crossborder' ).val( _isCrossborder );
 			
@@ -1108,17 +1115,29 @@
 				if($('#globkurier-pickup-type-PICKUP').is(':disabled')){
 					$( '.globkurier-not-pickup' ).hide();
 				}
-				
+
 				$( '.globkurier-only-ruch' ).hide();
-				
-				$( '.inpost-always' ).css( 'display', 'contents' );
-				
+
 				$( '#globkurier_inpost_input' ).addClass( 'globkurier-is-required' );
-				$( '#globkurier_inpost_input-pickup' ).addClass( 'globkurier-is-required' );
 				$( '#globkurier_ruch_input' ).removeClass( 'globkurier-is-required' );
-				
+
+				// Paczkomat odbioru wymagany tylko dla uslug z doreczeniem do punktu.
+				// Dla "dostawy do drzwi" pole pozostaje ukryte i niewymagane.
+				if ( inpostDeliveryToPoint == 1 ) {
+					$( '.inpost-always' ).css( 'display', 'contents' );
+					$( '#globkurier_inpost_input-pickup' ).addClass( 'globkurier-is-required' );
+				} else {
+					$( '.inpost-always' ).css( 'display', 'none' );
+					$( '#globkurier_inpost_input-pickup' ).removeClass( 'globkurier-is-required' ).val( '' );
+				}
+
 				if(!$('#globkurier-pickup-type-PICKUP').is(':checked')){
 					$( '.globkurier-only-inpost' ).css( 'display', 'contents' );
+
+					// Po pokazaniu wspolnego kontenera ponownie ukryj pole odbioru dla dostawy do drzwi
+					if ( inpostDeliveryToPoint != 1 ) {
+						$( '.inpost-always' ).css( 'display', 'none' );
+					}
 				}
 			}
 			
@@ -1185,9 +1204,17 @@
 			detailsContainer.find( '.udi-selected-product-description' ).html( carrierData.name );
 			
 			selectProductContainer.hide();
-			
+
 			getCustomRequiredFields();
-			
+
+			if ( window.globkurierCustoms ) {
+				window.globkurierCustoms.onCarrierSelected(
+					carrierData,
+					$( '#globkurier-sender-country' ).val(),
+					$( '#globkurier-receiver-country' ).val()
+				);
+			}
+
 			detailsContainer.show();
 			
 			getFirstAvailablePickupDay();
@@ -1329,26 +1356,38 @@
 		$( document ).on( 'change', '[name="globkurier-pickup-type"]', function () {
 			
 			let pickupType = $( this ).data( 'pickuptype' );
-			
+
 			let _isInpost = $( '#udi-selected-product-is-inpost' ).val( );
-			
+			let _inpostDeliveryToPoint = $( '#udi-selected-product-inpost-delivery-to-point' ).val();
+
 			if ( pickupType == 'POINT' ) {
 				$( '.globkurier-not-pickup' ).hide();
-				
+
 				if ( _isInpost == 1 ) {
 					$( '.globkurier-only-inpost' ).css( 'display', 'contents' );
+
+					// Dla dostawy do drzwi pole odbioru pozostaje ukryte
+					if ( parseInt( _inpostDeliveryToPoint ) != 1 ) {
+						$( '.inpost-always' ).css( 'display', 'none' );
+					}
 				}
 			}
-			
+
 			if ( pickupType == 'PICKUP' ) {
 				$( '.globkurier-not-pickup' ).show();
-				
-				
+
+
 				if ( _isInpost == 1 ) {
 					$( '.globkurier-only-inpost' ).hide();
-					$( '.inpost-always' ).css( 'display', 'contents' );
+
+					// Paczkomat odbioru pokazujemy tylko dla uslug z doreczeniem do punktu
+					if ( parseInt( _inpostDeliveryToPoint ) == 1 ) {
+						$( '.inpost-always' ).css( 'display', 'contents' );
+					} else {
+						$( '.inpost-always' ).css( 'display', 'none' );
+					}
 				}
-				
+
 			}
 			
 		} );
@@ -1449,7 +1488,8 @@
 										return {
 											city: search.term,
 											action: 'globkurierGetExtraPickupsPointsSelect2',
-											productId: orderData.productId
+											productId: orderData.productId,
+											countryId: orderData.receiverCountryId
 										}
 									},
 									processResults: function ( data ) {
@@ -1924,7 +1964,12 @@
 			}
 			
 			$( '.udi-save-order .udi-loader' ).show();
-			
+
+			// Odprawa celna: dołącz sekcję customs tylko w ścieżce nadania (nie w wspólnym getOrderData).
+			if ( window.globkurierCustoms ) {
+				Object.assign( ajaxData.data, window.globkurierCustoms.getPayload() );
+			}
+
 			$.post( data[ 'ajaxUrl' ], ajaxData, function ( response ) {
 				let order = $.parseJSON( response );
 				
@@ -2047,6 +2092,14 @@
 						+ '<p>Informacje związane ze statusem swojej przesyłki oraz list przewozowy otrzymasz na adres e-mail podany w procesie zamówienia.</p>' );
 					
 					addNoticeSuccess( '<p>Numer zamówienia: <strong>' + order.number + '</strong></p>' );
+
+					if ( window.globkurierCustoms && window.globkurierCustoms.getCustomsNotice ) {
+						let customsNotice = window.globkurierCustoms.getCustomsNotice();
+						if ( customsNotice ) {
+							addNoticeSuccess( '<p>' + customsNotice + '</p>' );
+						}
+					}
+
 					showNoticesSuccess();
 					$( window ).scrollTop( $( '#globkurier_ship_new_order' ).offset().top );
 				}
@@ -2118,13 +2171,19 @@
 			
 			let collectionType = $( '[name="globkurier-pickup-type"]:checked' ).val();
 			
+			let inpostDeliveryToPoint = $( '#udi-selected-product-inpost-delivery-to-point' ).val();
+
 			let inpostSenderPointId = '';
 			let inpostReceiverPointId = '';
 			let ruchReceiverPointId = '';
-			
+
 			if ( parseInt( isInpost ) == 1 ) {
 				inpostSenderPointId = $( '#udi-select-inpost-sender' ).val();
-				inpostReceiverPointId = $( '#udi-select-inpost-pickup_value' ).val();
+
+				// Punkt odbioru przekazujemy tylko dla uslug z doreczeniem do paczkomatu
+				if ( parseInt( inpostDeliveryToPoint ) == 1 ) {
+					inpostReceiverPointId = $( '#udi-select-inpost-pickup_value' ).val();
+				}
 			} else if ( parseInt( isRuch ) == 1 ) {
 				ruchReceiverPointId = $( '#udi-select-ruch' ).val();
 			}
@@ -2187,7 +2246,8 @@
 					'productId': productId,
 					'isRuch': isRuch,
 					'isInpost': isInpost,
-					
+					'inpostDeliveryToPoint': inpostDeliveryToPoint,
+
 					'extraPickupCarrierId': extraPickupCarrierId,
 					'extraPickupCarrierValue': extraPickupCarrierValue,
 					'extraPickupCarrierText': extraPickupCarrierText,

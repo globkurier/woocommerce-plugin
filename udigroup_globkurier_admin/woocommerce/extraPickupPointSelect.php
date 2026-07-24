@@ -113,7 +113,18 @@ if($hasMap){
 			};
 			
 			const selectTarget = '#' + params.fields.selectField;
-			
+
+			const gkGetShippingCountry = () => {
+				let country = '';
+				if ( $( '#ship-to-different-address-checkbox' ).is( ':checked' ) ) {
+					country = $( '#shipping_country' ).val() || '';
+				}
+				if ( ! country ) {
+					country = $( '#billing_country' ).val() || '';
+				}
+				return country;
+			}
+
 			const gkSaveSession = ( d ) => {
 				$( document ).find( '#' + params.fields.idField, '#' + params.wrapperId ).val( d.value || d.text ).change();
 				$( document ).find( '#' + params.fields.valueField, '#' + params.wrapperId ).val( d.id ).change();
@@ -164,7 +175,8 @@ if($hasMap){
 						return {
 							city: search.term,
 							action: params.actions.search,
-							productId: params.product.id
+							productId: params.product.id,
+							countryId: gkGetShippingCountry()
 						}
 					},
 					processResults: function ( data ) {

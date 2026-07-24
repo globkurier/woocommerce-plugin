@@ -56,7 +56,9 @@ class BulkSend
 			return;
 		}
 		
-		wp_enqueue_script('wpopieka_globkurier_bulk_send_script', plugin_dir_url(__FILE__).'/assets/bulk-send.js', ['jquery'], '1.0');
+		$bulkSendScriptPath = plugin_dir_path(__FILE__).'assets/bulk-send.js';
+		$bulkSendScriptVersion = file_exists($bulkSendScriptPath) ? filemtime($bulkSendScriptPath) : '1.0';
+		wp_enqueue_script('wpopieka_globkurier_bulk_send_script', plugin_dir_url(__FILE__).'/assets/bulk-send.js', ['jquery'], $bulkSendScriptVersion);
 		wp_localize_script('wpopieka_globkurier_bulk_send_script', 'wpopieka_globkurier_bulk_send_data', [
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'nonce'    => wp_create_nonce('wpopieka_globkurier_bulk_send'),

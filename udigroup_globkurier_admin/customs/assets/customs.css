@@ -1,0 +1,416 @@
+.globkurier-customs-section {
+	margin: 16px 0;
+	padding-top: 14px;
+	border-top: 1px solid #dcdcde;
+}
+
+.globkurier-customs-section__title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	margin: 0 0 10px;
+}
+
+.globkurier-customs-section__row {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.globkurier-customs-section__label {
+	flex: 0 0 160px;
+	text-align: right;
+	padding-top: 5px;
+	color: #1d2327;
+}
+
+.globkurier-customs-section__control {
+	flex: 1 1 auto;
+}
+
+.globkurier-customs-edit-btn {
+	min-width: 260px;
+}
+
+.globkurier-customs-edit-btn.is-filled {
+	border-color: #46b450 !important;
+	color: #2c8a36 !important;
+}
+
+.globkurier-customs-required-msg {
+	color: #d63638;
+	font-weight: 600;
+	margin: 6px 0 0;
+}
+
+.globkurier-customs-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 100000;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	overflow-y: auto;
+	padding: 40px 16px;
+}
+
+.globkurier-customs-modal {
+	background: #fff;
+	border-radius: 4px;
+	width: 100%;
+	max-width: 1180px;
+	box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+	display: flex;
+	flex-direction: column;
+}
+
+.globkurier-customs-modal__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 20px;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.globkurier-customs-modal__title {
+	margin: 0;
+	font-size: 18px;
+	color: #1d2327;
+}
+
+.globkurier-customs-modal__close {
+	background: none;
+	border: none;
+	font-size: 26px;
+	line-height: 1;
+	cursor: pointer;
+	color: #787c82;
+	padding: 0 4px;
+}
+
+.globkurier-customs-modal__close:hover {
+	color: #d63638;
+}
+
+.globkurier-customs-modal__body {
+	padding: 18px 20px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.globkurier-customs-modal__body > .globkurier-customs-fieldgroup[data-collection] {
+	flex: 1 1 100%;
+	margin-bottom: 0;
+}
+
+.globkurier-customs-modal__body > .globkurier-customs-row {
+	flex: 1 1 calc(50% - 6px);
+}
+
+.globkurier-customs-modal__body > .globkurier-customs-fieldgroup[data-compound] {
+	flex: 1 1 calc(68% - 6px);
+	margin-bottom: 0;
+}
+
+.globkurier-customs-modal__body > .globkurier-customs-fieldgroup[data-compound] ~ .globkurier-customs-row {
+	flex: 1 1 calc(32% - 6px);
+}
+
+.globkurier-customs-modal__footer {
+	padding: 14px 20px;
+	border-top: 1px solid #dcdcde;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.globkurier-customs-modal__error {
+	color: #d63638;
+	font-weight: 600;
+	margin: 0;
+}
+
+.globkurier-customs-fieldgroup {
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 14px;
+	margin-bottom: 16px;
+}
+
+.globkurier-customs-fieldgroup__title {
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0 0 12px;
+	color: #1d2327;
+}
+
+.globkurier-customs-field {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 100%;
+	min-width: 0;
+	box-sizing: border-box;
+	margin-bottom: 12px;
+}
+
+.globkurier-customs-field > label {
+	font-size: 11px;
+	color: #50575e;
+	margin-bottom: 3px;
+	line-height: 1.3;
+}
+
+.globkurier-customs-field .required-star {
+	color: #d63638;
+}
+
+.globkurier-customs-field input[type="text"],
+.globkurier-customs-field input[type="number"],
+.globkurier-customs-field input[type="date"],
+.globkurier-customs-field select {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 4px 8px;
+	min-height: 32px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	background-color: #fff;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.globkurier-customs-field input[type="date"] {
+	height: 32px;
+	line-height: normal;
+}
+
+.globkurier-customs-field select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	padding-right: 26px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20'%3E%3Cpath fill='%2350575e' d='M5 7l5 5 5-5z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	background-size: 14px 14px;
+}
+
+.globkurier-customs-field select:disabled {
+	background-color: #f0f0f1;
+	color: #50575e;
+}
+
+.globkurier-customs-inputgroup {
+	display: flex;
+	align-items: stretch;
+}
+
+.globkurier-customs-inputgroup input {
+	margin: 0 !important;
+	border-right: none !important;
+	border-radius: 4px 0 0 4px !important;
+}
+
+.globkurier-customs-inputgroup .globkurier-customs-suffix {
+	margin: 0;
+}
+
+.globkurier-customs-suffix {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 34px;
+	padding: 0 10px;
+	border: 1px solid #8c8f94;
+	border-radius: 0 4px 4px 0;
+	background: #f6f7f7;
+	color: #646970;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.globkurier-customs-field input.has-error,
+.globkurier-customs-field select.has-error {
+	border-color: #d63638;
+	border-width: 2px;
+}
+
+.globkurier-customs-field .field-error {
+	color: #d63638;
+	font-size: 11px;
+	margin-top: 3px;
+}
+
+.globkurier-customs-field .char-counter {
+	font-size: 10px;
+	color: #a7aaad;
+	text-align: right;
+	margin-top: 2px;
+}
+
+.globkurier-customs-field--dual .globkurier-customs-field__dual-part {
+	margin-bottom: 6px;
+}
+
+.globkurier-customs-field--dual .globkurier-customs-field__dual-part + .globkurier-customs-field__dual-part {
+	margin-bottom: 0;
+}
+
+.globkurier-customs-field--dual label {
+	font-size: 11px;
+	color: #50575e;
+	display: block;
+	margin-bottom: 3px;
+}
+
+.globkurier-customs-translate-wrap {
+	position: relative;
+}
+
+.globkurier-customs-translate-wrap input.dual-input {
+	padding-right: 34px;
+}
+
+.globkurier-customs-translate-btn {
+	position: absolute;
+	top: 50%;
+	right: 5px;
+	transform: translateY(-50%);
+	width: 24px;
+	height: 24px;
+	border: none;
+	border-radius: 50%;
+	background: #46b450;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+.globkurier-customs-translate-btn:hover {
+	background: #2c8a36;
+}
+
+.globkurier-customs-translate-btn:disabled {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.globkurier-customs-translate-btn .dashicons {
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 1;
+}
+
+.globkurier-customs-translate-btn.is-loading .dashicons:before {
+	content: "\f463";
+	display: inline-block;
+	animation: globkurier-customs-spin 1s linear infinite;
+}
+
+@keyframes globkurier-customs-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.globkurier-customs-commodity {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	padding: 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	background: #f6f7f7;
+}
+
+.globkurier-customs-commodity__index {
+	flex: 0 0 16px;
+	font-weight: 600;
+	color: #50575e;
+	padding-top: 24px;
+}
+
+.globkurier-customs-commodity__main {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.globkurier-customs-commodity__line {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px 12px;
+	align-items: start;
+}
+
+.globkurier-customs-commodity__line .globkurier-customs-field {
+	min-width: 0;
+	margin-bottom: 0;
+}
+
+.globkurier-customs-commodity__remove {
+	flex: 0 0 auto;
+	align-self: flex-start;
+	margin-top: 22px;
+	padding: 4px;
+	color: #b32d2e !important;
+	text-decoration: none;
+	cursor: pointer;
+	line-height: 1;
+}
+
+.globkurier-customs-commodity__remove .dashicons {
+	width: 22px;
+	height: 22px;
+	font-size: 22px;
+}
+
+.globkurier-customs-commodity__remove:hover {
+	color: #d63638 !important;
+}
+
+.globkurier-customs-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 10px;
+}
+
+.globkurier-customs-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.globkurier-customs-fieldgroup[data-compound] .globkurier-customs-row .globkurier-customs-field {
+	flex: 1 1 0;
+	min-width: 120px;
+	margin-bottom: 0;
+}
+
+.globkurier-customs-fieldgroup[data-compound] .globkurier-customs-row + .globkurier-customs-row {
+	margin-top: 12px;
+}
+
+.globkurier-customs-fieldgroup.has-sum-error {
+	border-color: #d63638;
+	border-width: 2px;
+}
+
+.globkurier-customs-sum-error {
+	color: #d63638;
+	font-size: 12px;
+	font-weight: 600;
+	margin: 10px 0 0;
+}

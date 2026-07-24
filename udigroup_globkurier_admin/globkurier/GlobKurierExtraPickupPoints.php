@@ -54,15 +54,37 @@ class GlobKurierExtraPickupPoints extends GlobKurier
 		$method   = 'GET';
 		
 		$params = [];
-		
-		$params[ 'productId' ]                     = (int)($_GET[ 'productId' ] ?? null);
+
+		$productId   = (int)($_GET[ 'productId' ] ?? null);
+		$carrierName = $this->findCarrierNameForProductId($productId);
+
+		// Filtrujemy po carrierName, gdy uda sie go zmapowac z productId;
+		// w przeciwnym razie fallback do dotychczasowego filtra po productId.
+		if ($carrierName !== null) {
+			$params[ 'carrierName' ] = $carrierName;
+		} else {
+			$params[ 'productId' ] = $productId;
+		}
+
 		$params[ 'isCashOnDeliveryAddonSelected' ] = 'false';
-		
-		
+
+		$countryId = sanitize_text_field($_GET[ 'countryId' ] ?? '');
+
+		if ($countryId !== '' && ! is_numeric($countryId)) {
+			$countriesMap = $this->inpost()->getGlobKurierCountriesMap();
+			$countryId    = $countriesMap[ strtoupper($countryId) ] ?? null;
+		}
+
+		if ($countryId) {
+			$params[ 'countryId' ] = (int)$countryId;
+		}
+
+
 		$city = trim($_GET['city'] ?? '');
 		$cityNoPl = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', trim($_GET[ 'city' ] ?? ''));
 		
 		$params['filter'] = implode(', ', explode(' ', $city));
+		
 		$response = $this->api()->getResponse($function, null, $params, $method);
 		
 		$params['filter'] = implode(', ', explode(' ', $cityNoPl));
@@ -151,8 +173,25 @@ class GlobKurierExtraPickupPoints extends GlobKurier
 				return $data[ 'id' ];
 			}
 		}
-		
+
 		return null;
 	}
-	
+
+	public function findCarrierNameForProductId(int $productId)
+	{
+		if (!$productId) {
+			return null;
+		}
+
+		$extraPoints = get_option('globkurier_extra_pickup_points');
+
+		foreach ($extraPoints ?? [] as $carrierName => $data) {
+			if ((int)($data[ 'id' ] ?? 0) === $productId) {
+				return $carrierName;
+			}
+		}
+
+		return null;
+	}
+
 }
